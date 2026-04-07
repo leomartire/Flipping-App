@@ -15,7 +15,9 @@ Sistema integral de gestión para proyectos de flipping inmobiliario en CABA, di
 
 ## 📚 Documentación Disponible
 
-### 1. [ARQUITECTURA.md](./ARQUITECTURA.md)
+### 0. [📄 Descripción General del Proyecto](./docs/PROYECTO.md)
+
+### 1. [🏗️ Arquitectura de la Solución](./docs/ARQUITECTURA.md)
 Documento completo de arquitectura del sistema que incluye:
 - Visión general del proyecto
 - Stack tecnológico recomendado
@@ -30,7 +32,7 @@ Documento completo de arquitectura del sistema que incluye:
 
 ---
 
-### 2. [MODELO_DATOS.md](./MODELO_DATOS.md)
+### 2. [📊 Modelo de Datos](./docs/MODELO_DATOS.md)
 Diagrama Entidad-Relación completo con:
 - Modelo de datos en formato Mermaid ERD
 - Definición de todas las tablas
@@ -43,7 +45,7 @@ Diagrama Entidad-Relación completo con:
 
 ---
 
-### 3. [DISENO_UI_UX.md](./DISENO_UI_UX.md)
+### 3. [🎨 Diseño de UI/UX](./docs/DISENO_UI_UX.md)
 Sistema de diseño y wireframes que cubre:
 - Paleta de colores completa
 - Tipografía y espaciado
@@ -58,7 +60,7 @@ Sistema de diseño y wireframes que cubre:
 
 ---
 
-### 4. [PLAN_DESARROLLO.md](./PLAN_DESARROLLO.md)
+### 4. [📅 Plan de Desarrollo](./docs/PLAN_DESARROLLO.md)
 Roadmap detallado de implementación con:
 - Timeline de 15 semanas dividido en 4 fases
 - Tareas día a día para cada sprint
