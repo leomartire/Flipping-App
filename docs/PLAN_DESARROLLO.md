@@ -757,6 +757,20 @@ jobs:
 - [ ] 2FA opcional
 
 ---
+## 📍 Notas de Estrategia de Implementación (Abril 2026)
+
+### Postergación de Módulo OCR a Etapa 2
+Se ha tomado la decisión técnica de priorizar la **Fase 4: MVP Operativo** con carga manual por sobre la automatización mediante OCR. 
+
+**Justificación:**
+1. **Time-to-Market:** Acelerar la disponibilidad de la herramienta para uso real en obras activas.
+2. **Integridad de Datos:** Consolidar primero el motor de cálculo de ROI y el Ledger financiero antes de introducir variables de IA.
+3. **Respaldo Documental:** El sistema permitirá el almacenamiento de imágenes de comprobantes desde la Etapa 1, lo cual servirá como "Dataset de entrenamiento" para cuando se active el OCR.
+
+**Impacto en Etapa 2:**
+Se habilitará el motor de visión artificial (Google Vision / Tesseract) para procesar retroactivamente los archivos adjuntos y automatizar las futuras cargas de gastos.
+
+---
 
 ## 📝 Notas Finales
 
