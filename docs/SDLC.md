@@ -10,7 +10,7 @@ Se utiliza un enfoque **Ágil-Híbrido**, combinando la flexibilidad de Scrum co
 ## 🏗️ Fases del Ciclo
 
 ### 1. Planificación y Requerimientos (Análisis)
-- **Objetivo:** Definir las necesidades financieras de la familia (ingresos, gastos, presupuestos).
+- **Objetivo:** Definir las necesidades financieras del proyecto (ingresos, gastos, presupuestos). Definir formas de ingreso de gastos: manual / automatizada por medio de OCR.
 - **Entregable:** `docs/PROYECTO.md` y `docs/PLAN_DESARROLLO.md`.
 
 ### 2. Diseño de la Solución
