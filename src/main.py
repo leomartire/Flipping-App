@@ -2,37 +2,61 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 
-# Configuración de la página
-st.set_page_config(page_title="Flipping-App", layout="centered")
+# --- CONFIGURACIÓN PRO ---
+st.set_page_config(page_title="Flipping-App Pro", layout="wide")
 
-st.title("🏦 Flipping-App: Gestión de Gastos")
-st.subheader("Carga de Transacciones")
+# Inicialización de "Base de Datos" temporal
+if 'db_gastos' not in st.session_state:
+    st.session_state.db_gastos = pd.DataFrame(columns=[
+        "Fecha", "Proyecto", "Proveedor", "Categoría", "Monto", "OCR_Status"
+    ])
 
-# --- FORMULARIO DE ENTRADA ---
-with st.form("entry_form", clear_on_submit=True):
-    col1, col2 = st.columns(2)
-    
-    fecha = col1.date_input("Fecha", datetime.now())
-    categoria = col2.selectbox("Categoría", ["Alimentación", "Servicios", "Transporte", "Ocio", "Salud", "Otros"])
-    
-    monto = col1.number_input("Monto", min_value=0.0, step=100.0)
-    descripcion = col2.text_input("Descripción (ej. Supermercado)")
-    
-    submit = st.form_submit_button("Registrar Gasto")
+# --- NAVEGACIÓN (ROLES) ---
+st.sidebar.title("🏗️ Flipping-App Pro")
+perfil = st.sidebar.radio("Entrar como:", ["Socio Gestor (Obra)", "Socio Inversor (Reportes)"])
 
-# --- LÓGICA DE GUARDADO ---
-if submit:
-    nuevo_gasto = {
-        "Fecha": [fecha],
-        "Categoría": [categoria],
-        "Monto": [monto],
-        "Descripción": [descripcion]
-    }
-    df = pd.DataFrame(nuevo_gasto)
+# --- MODO: SOCIO GESTOR ---
+if perfil == "Socio Gestor (Obra)":
+    st.header("🏗️ Gestión de Obra y Gastos")
     
-    st.success(f"✅ Gasto de ${monto} en {categoria} registrado correctamente.")
-    st.write("Vista previa del registro:")
-    st.table(df)
+    with st.expander("➕ Cargar Nuevo Gasto / Scan OCR", expanded=True):
+        col1, col2 = st.columns(2)
+        with col1:
+            uploaded_file = st.file_uploader("Subir foto de ticket/factura", type=['jpg', 'png', 'pdf'])
+            if uploaded_file:
+                st.info("Simulando procesamiento OCR... Extraído: $45,200.00") # Aquí conectaremos la IA luego
+        
+        with col2:
+            with st.form("form_gasto"):
+                proyecto = st.selectbox("Proyecto", ["Palermo PH", "Belgrano Depto"])
+                prov = st.text_input("Proveedor")
+                cat = st.selectbox("Rubro", ["Materiales", "Mano de Obra", "Permisos", "Varios"])
+                monto = st.number_input("Monto Final ($)", min_value=0.0)
+                submit = st.form_submit_button("Confirmar e Impactar")
+                
+                if submit:
+                    nuevo = pd.DataFrame([[datetime.now().date(), proyecto, prov, cat, monto, "Manual/OCR"]], 
+                                         columns=st.session_state.db_gastos.columns)
+                    st.session_state.db_gastos = pd.concat([st.session_state.db_gastos, nuevo], ignore_index=True)
+                    st.success("Gasto registrado con éxito.")
 
-# --- RESUMEN TEMPORAL ---
-st.info("Próximo paso: Conectar con una base de datos para persistir los datos.")
+    st.subheader("📋 Ledger de la Obra")
+    st.dataframe(st.session_state.db_gastos, use_container_width=True)
+
+# --- MODO: SOCIO INVERSOR ---
+else:
+    st.header("📊 Dashboard del Socio Inversor")
+    
+    # KPIs de alto nivel
+    presupuesto_total = 120000.00 # Ejemplo
+    gastado = st.session_state.db_gastos["Monto"].sum()
+    disponible = presupuesto_total - gastado
+    
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Presupuesto Obra", f"${presupuesto_total:,.2f}")
+    c2.metric("Total Invertido", f"${gastado:,.2f}", delta=f"{gastado/presupuesto_total:.1%}")
+    c3.metric("Margen de Seguridad", f"${disponible:,.2f}")
+
+    if not st.session_state.db_gastos.empty:
+        st.subheader("Desglose por Rubro")
+        st.bar_chart(st.session_state.db_gastos.groupby("Categoría")["Monto"].sum())
