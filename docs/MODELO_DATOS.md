@@ -2,7 +2,7 @@
 
 ## 1. Diagrama Entidad-Relación (ERD)
 
-Este diagrama representa la arquitectura lógica del sistema. Está diseñado para soportar múltiples proyectos, seguimiento de gastos por rubro y participación de socios.
+Este diagrama representa la arquitectura lógica del sistema, optimizado para la Fase 3 de Refinamiento Financiero.
 
 ```mermaid
 erDiagram
@@ -17,7 +17,7 @@ erDiagram
         decimal purchase_price "Costo adquisición USD"
         decimal renovation_budget "Presupuesto obra aprobado"
         decimal estimated_sale_price "Precio venta proyectado"
-        string currency "USD/ARS"
+        string currency "Moneda base (USD/ARS)"
         string status "PLANNING | IN_PROGRESS | SOLD | LIQUIDATED"
     }
 
@@ -25,9 +25,12 @@ erDiagram
         uuid id PK
         uuid project_id FK
         uuid vendor_id FK
+        string vendor_name "Nombre del Proveedor"
+        string invoice_num "Número de Factura/Ticket"
         date date
+        string currency "Moneda del comprobante (USD/ARS)"
         decimal amount "Monto en moneda original"
-        decimal exchange_rate "TC del día para conversión"
+        decimal exchange_rate "TC para conversión a base"
         string category "Materiales | Mano de Obra | Tasas | etc"
         string payment_type "Efectivo | Transferencia | Tarjeta"
         string receipt_url "Link a la evidencia física"
