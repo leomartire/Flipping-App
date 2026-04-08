@@ -41,6 +41,7 @@ erDiagram
     PROJECT_MEMBERS {
         uuid project_id FK
         uuid user_id FK
+        string member_Fullname "Nombre del Miembro"
         string role "GESTOR | INVERSOR"
         decimal equity_contribution "Capital real aportado"
         float share_percentage "% Participación en ganancias"
