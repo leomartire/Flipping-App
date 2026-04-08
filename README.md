@@ -1,10 +1,11 @@
-# 🏦 Flipping-App: Gestión de Gastos Familiares
+# 🏗️ Flipping-App Pro: Real Estate Operations Control
 
 ![Status](https://img.shields.io/badge/Status-En%20Desarrollo-green)
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
 ![Methodology](https://img.shields.io/badge/Methodology-SDLC%20Agile-orange)
 
-**Flipping-App** es una solución diseñada para centralizar y optimizar el flujo en proyectos de Flipping Inmobiliario. Esta aplicación permite el registro, categorización y análisis de gastos del proyecto en tiempo real.
+# 🏗️ Flipping-App Pro: Real Estate Operations Control
+Gestión integral de obras de flipping: Control de presupuesto, carga con OCR y reportes para socios inversores.
 
 ---
 
