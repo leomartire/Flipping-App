@@ -49,9 +49,9 @@ erDiagram
 
     VENDORS {
         uuid id PK
-        string name
-        string tax_id "CUIT/CUIL"
-        string category "Rubro principal"
+        string vendor_name
+        string vendor_tax_id "CUIT/CUIL"
+        string vendor_category "Rubro principal"
     }
 
     OCR_METADATA {
