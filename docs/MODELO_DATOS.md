@@ -7,15 +7,15 @@ erDiagram
     PROJECTS ||--o{ EXPENSES : "registra"
     PROJECTS ||--o{ PROJECT_MEMBERS : "tiene"
     VENDORS ||--o{ EXPENSES : "factura"
-    EXPENSES ||--|| OCR_METADATA : "proviene de"
+    EXPENSES ||--|| OCR_METADATA : "proviene_de"
 
     PROJECTS {
         uuid id PK
         string name
-        decimal purchase_price "Monto compra"
-        decimal renovation_budget "Presupuesto obra"
-        decimal total_spent "Calculado"
-        enum status "PLANNING, IN_PROGRESS, SOLD"
+        decimal purchase_price
+        decimal renovation_budget
+        decimal total_spent
+        string status
     }
 
     EXPENSES {
@@ -24,21 +24,21 @@ erDiagram
         uuid vendor_id FK
         date date
         decimal amount
-        string category "Materiales, Mano de Obra, Honorarios"
-        string receipt_url "Link a la foto"
-        boolean ocr_verified "Validado por Gestor"
+        string category
+        string receipt_url
+        boolean ocr_verified
     }
 
     OCR_METADATA {
-        uuid expense_id PK/FK
-        json raw_text "Texto extraído por IA"
-        float confidence "Nivel de certeza"
+        uuid expense_id PK
+        string raw_text
+        float confidence
         string processed_at
     }
 
     PROJECT_MEMBERS {
-        uuid project_id FK
+        uuid id FK
         uuid user_id FK
-        decimal equity_contribution "Capital aportado"
-        float share_percentage "% de ganancia"
+        decimal equity_contribution
+        float share_percentage
     }
