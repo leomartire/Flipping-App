@@ -87,4 +87,21 @@ El mercado inmobiliario en **CABA** presenta actualmente una ventana de oportuni
 - [ ] **Semana 8:** Escrituración e inicio de obra.
 
 ---
+## 10. Visión
+Optimizar la rentabilidad de proyectos de Flipping Inmobiliario mediante el control exhaustivo de costos y la transparencia operativa entre socios.
+
+---
+
+## 11. Alcance
+- **Gestión de Obras:** Registro centralizado de reformas.
+- **Control de Presupuesto:** Monitoreo de desvíos en tiempo real.
+- **Automatización:** Digitalización de comprobantes físicos.
+
+---
+
+## 12. Roles de Usuario
+- **Socio Gestor:** Responsable de la ejecución, proveedores y carga de datos.
+- **Socio Inversor:** Aporta el capital y requiere visibilidad del ROI y salud financiera.
+
+
 **CONTACTO:** 📧 **VERONA**
