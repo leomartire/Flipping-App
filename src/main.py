@@ -1,62 +1,101 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import os
 
-# --- CONFIGURACIÓN PRO ---
-st.set_page_config(page_title="Flipping-App Pro", layout="wide")
+# --- CONFIGURACIÓN DE AMBIENTE ---
+FILE_DB = "ledger_flipping.csv"
 
-# Inicialización de "Base de Datos" temporal
-if 'db_gastos' not in st.session_state:
-    st.session_state.db_gastos = pd.DataFrame(columns=[
-        "Fecha", "Proyecto", "Proveedor", "Categoría", "Monto", "OCR_Status"
-    ])
+def cargar_datos():
+    if os.path.exists(FILE_DB):
+        return pd.read_csv(FILE_DB)
+    return pd.DataFrame(columns=["Fecha", "Proyecto", "Proveedor", "Rubro", "Monto", "Comprobante_Adjunto"])
 
-# --- NAVEGACIÓN (ROLES) ---
-st.sidebar.title("🏗️ Flipping-App Pro")
-perfil = st.sidebar.radio("Entrar como:", ["Socio Gestor (Obra)", "Socio Inversor (Reportes)"])
+def guardar_gasto(nueva_fila):
+    df = cargar_datos()
+    df = pd.concat([df, pd.DataFrame([nueva_fila])], ignore_index=True)
+    df.to_csv(FILE_DB, index=False)
+
+# --- UI CONFIG ---
+st.set_page_config(page_title="Flipping-App Pro", layout="wide", initial_sidebar_state="expanded")
+
+# --- NAVEGACIÓN ---
+st.sidebar.title("🏢 Flipping-App Pro")
+st.sidebar.markdown("---")
+perfil = st.sidebar.radio("Vista de Usuario:", ["Socio Gestor (Obra)", "Socio Inversor (Dashboard)"])
 
 # --- MODO: SOCIO GESTOR ---
 if perfil == "Socio Gestor (Obra)":
-    st.header("🏗️ Gestión de Obra y Gastos")
-    
-    with st.expander("➕ Cargar Nuevo Gasto / Scan OCR", expanded=True):
+    st.header("🏗️ Consola de Gestión de Obra")
+    st.info("Registra los gastos y adjunta el comprobante para auditoría.")
+
+    with st.form("form_carga_manual", clear_on_submit=True):
         col1, col2 = st.columns(2)
+        
         with col1:
-            uploaded_file = st.file_uploader("Subir foto de ticket/factura", type=['jpg', 'png', 'pdf'])
-            if uploaded_file:
-                st.info("Simulando procesamiento OCR... Extraído: $45,200.00") # Aquí conectaremos la IA luego
+            fecha = st.date_input("Fecha del Gasto", datetime.now())
+            proyecto = st.selectbox("Proyecto Seleccionado", ["Palermo PH", "Belgrano Depto", "Recoleta Studio"])
+            proveedor = st.text_input("Nombre del Proveedor / Comercio")
         
         with col2:
-            with st.form("form_gasto"):
-                proyecto = st.selectbox("Proyecto", ["Palermo PH", "Belgrano Depto"])
-                prov = st.text_input("Proveedor")
-                cat = st.selectbox("Rubro", ["Materiales", "Mano de Obra", "Permisos", "Varios"])
-                monto = st.number_input("Monto Final ($)", min_value=0.0)
-                submit = st.form_submit_button("Confirmar e Impactar")
-                
-                if submit:
-                    nuevo = pd.DataFrame([[datetime.now().date(), proyecto, prov, cat, monto, "Manual/OCR"]], 
-                                         columns=st.session_state.db_gastos.columns)
-                    st.session_state.db_gastos = pd.concat([st.session_state.db_gastos, nuevo], ignore_index=True)
-                    st.success("Gasto registrado con éxito.")
+            rubro = st.selectbox("Categoría / Rubro", ["Materiales", "Mano de Obra", "Impuestos/Tasas", "Honorarios Professionales", "Varios"])
+            monto = st.number_input("Monto Total ($)", min_value=0.0, format="%.2f")
+            adjunto = st.file_uploader("Adjuntar Comprobante (Opcional)", type=["jpg", "png", "pdf"])
 
-    st.subheader("📋 Ledger de la Obra")
-    st.dataframe(st.session_state.db_gastos, use_container_width=True)
+        btn_registrar = st.form_submit_button("🔨 Registrar Gasto en Ledger")
+
+    if btn_registrar:
+        if monto > 0 and proveedor:
+            nuevo_gasto = {
+                "Fecha": fecha.strftime("%Y-%m-%d"),
+                "Proyecto": proyecto,
+                "Proveedor": proveedor,
+                "Rubro": rubro,
+                "Monto": monto,
+                "Comprobante_Adjunto": adjunto.name if adjunto else "Sin adjunto"
+            }
+            guardar_gasto(nuevo_gasto)
+            st.success(f"✅ Gasto de ${monto:,.2f} registrado en {proyecto}.")
+        else:
+            st.warning("⚠️ Por favor, ingresa un monto válido y el nombre del proveedor.")
+
+    st.markdown("---")
+    st.subheader("📋 Últimos movimientos registrados")
+    st.dataframe(cargar_datos().tail(10), use_container_width=True)
 
 # --- MODO: SOCIO INVERSOR ---
 else:
-    st.header("📊 Dashboard del Socio Inversor")
+    st.header("📊 Dashboard de Control de Inversión")
+    df_actual = cargar_datos()
     
-    # KPIs de alto nivel
-    presupuesto_total = 120000.00 # Ejemplo
-    gastado = st.session_state.db_gastos["Monto"].sum()
-    disponible = presupuesto_total - gastado
+    # Simulación de Presupuesto Inicial (Esto luego vendrá de una tabla de Proyectos)
+    BUDGET_TOTAL = 150000.00 
     
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Presupuesto Obra", f"${presupuesto_total:,.2f}")
-    c2.metric("Total Invertido", f"${gastado:,.2f}", delta=f"{gastado/presupuesto_total:.1%}")
-    c3.metric("Margen de Seguridad", f"${disponible:,.2f}")
+    total_gastado = df_actual["Monto"].sum()
+    balance = BUDGET_TOTAL - total_gastado
+    porcentaje_consumido = (total_gastado / BUDGET_TOTAL) * 100 if BUDGET_TOTAL > 0 else 0
 
-    if not st.session_state.db_gastos.empty:
+    # KPIs Principales
+    k1, k2, k3 = st.columns(3)
+    k1.metric("Presupuesto de Obra", f"${BUDGET_TOTAL:,.2f}")
+    k2.metric("Total Invertido", f"${total_gastado:,.2f}", delta=f"{porcentaje_consumido:.1f}% del total")
+    k3.metric("Margen de Seguridad", f"${balance:,.2f}", delta_color="inverse")
+
+    st.markdown("---")
+    
+    c_left, c_right = st.columns([2, 1])
+    
+    with c_left:
         st.subheader("Desglose por Rubro")
-        st.bar_chart(st.session_state.db_gastos.groupby("Categoría")["Monto"].sum())
+        if not df_actual.empty:
+            chart_data = df_actual.groupby("Rubro")["Monto"].sum()
+            st.bar_chart(chart_data)
+        else:
+            st.write("No hay datos suficientes para graficar.")
+
+    with c_right:
+        st.subheader("Distribución de Inversión")
+        if not df_actual.empty:
+            # Mostramos el top de proveedores
+            top_prov = df_actual.groupby("Proveedor")["Monto"].sum().sort_values(ascending=False).head(5)
+            st.table(top_prov)
