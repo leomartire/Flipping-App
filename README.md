@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
 ![Methodology](https://img.shields.io/badge/Methodology-SDLC%20Agile-orange)
 
-**Flipping-App** es una solución diseñada para centralizar y optimizar el flujo de dinero familiar. Inspirada en los principios de gestión financiera empresarial (ERP), esta aplicación permite el registro, categorización y análisis de gastos en tiempo real.
+**Flipping-App** es una solución diseñada para centralizar y optimizar el flujo en proyectos de Flipping Inmobiliario. Esta aplicación permite el registro, categorización y análisis de gastos del proyecto en tiempo real.
 
 ---
 
@@ -39,4 +39,4 @@ Para conocer los detalles técnicos y la metodología de trabajo, consulta los s
 
 ---
 **Autor:** Leonardo Martire  
-*Oracle Functional Consultant & AI Development Enthusiast*
+*AI Development Enthusiast*
