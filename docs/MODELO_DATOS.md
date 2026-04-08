@@ -42,9 +42,9 @@ erDiagram
         uuid project_id FK
         uuid user_id FK
         string member_Fullname "Nombre del Miembro"
-        string role "GESTOR | INVERSOR"
-        decimal equity_contribution "Capital real aportado"
-        float share_percentage "% Participación en ganancias"
+        string member_role "GESTOR | INVERSOR"
+        decimal member_equity_contribution "Capital real aportado"
+        float member_share_percentage "% Participación en ganancias"
     }
 
     VENDORS {
