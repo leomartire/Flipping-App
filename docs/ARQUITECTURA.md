@@ -25,19 +25,41 @@ Plataforma integral para la gestión de proyectos de flipping inmobiliario, perm
 
 ---
 
-## 💾 Especificación de Atributos (Data Dictionary)
+## 💾 Especificación de Entidades y Atributos (Data Dictionary)
 
 Esta sección define la lógica de negocio para los campos críticos del sistema:
 
-### 1. Proyectos (Flipping Projects)
-- **purchase_price:** Monto de adquisición incluyendo gastos legales (Escritura + Sellos).
-- **renovation_budget:** Techo financiero aprobado para la reforma. Es el benchmark del Inversor.
-- **status:** `PLANNING`, `IN_PROGRESS`, `SOLD`.
+### 1. Entidad: Proyectos (Flipping Projects)
+- **id (UUID):** Identificador único universal. Evita colisiones de datos si escalamos a múltiples bases de datos.
+- **name (String):** Nombre comercial o dirección de la propiedad.
+- **purchase_price (Decimal):** Costo total de adquisición. Incluye el valor de compra más gastos legales (escritura, sellos e impuestos).
+- **renovation_budget (Decimal):** Techo financiero aprobado por el Inversor para la reforma. Es el valor contra el cual se compararán los desvíos.
+- **status (Enum):** Ciclo de vida del proyecto: PLANNING (Estudio), IN_PROGRESS (Obra activa), SOLD (Finalizado y liquidado).
 
-### 2. Gastos & OCR (Expenses Metadata)
-- **vendor_tax_id:** CUIT del proveedor detectado por el motor OCR.
-- **raw_ocr_text:** Texto plano extraído para auditoría y re-procesamiento.
-- **confidence_score:** Nivel de certeza de la IA (0 a 1). Si es < 0.8, requiere validación manual.
+### 2. Entidad: Gastos con Soporte OCR (Expenses)
+Registro de egresos operativos optimizado para la carga digital.
+
+- **id (UUID):** Identificador de la transacción.
+- **project_id (FK):** Vincula el gasto a una obra específica.
+- **vendor_id (FK):** Identifica al proveedor. Este campo es poblado automáticamente por el motor OCR al detectar el CUIT/Tax ID.
+- **amount (Decimal):** Valor total expresado en moneda de curso legal.
+- **receipt_url (String):** Puntero al almacenamiento en la nube donde reside la imagen del comprobante (evidencia de auditoría).
+ 
+## 3. Entidad: Metadatos de IA (OCR_METADATA)
+Capa de auditoría técnica que separa el dato procesado del dato crudo extraído por la IA.
+
+- **expense_id (PK/FK):** Referencia uno-a-uno con el gasto.
+- **raw_text (Text):** Almacenamiento del bloque de texto completo extraído por el OCR. Permite re-procesar el gasto sin necesidad de re-escanear la imagen.
+- **confidence (Float):** Puntaje de precisión (0.00 a 1.00). Si es menor a 0.80, el sistema debería forzar una revisión manual del Socio Gestor.
+
+## 4. Entidad: Socios y Capital (Partners & Equity)
+Define la estructura de propiedad y el riesgo de la inversión.
+
+- **equity_contribution (Decimal):** Monto líquido aportado por el socio al proyecto.
+- **share_percentage (Float):** Cuota de participación sobre las utilidades netas finales (Equity Share).
+
+
+
 
 ---
 
