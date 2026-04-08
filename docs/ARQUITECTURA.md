@@ -71,7 +71,9 @@ Define la estructura de propiedad y el riesgo de la inversión.
 3. **Audit:** El sistema compara el gasto contra el `renovation_budget` activo.
 4. **Impact:** Actualización de KPIs en el Dashboard del Inversor.
 
-
+### Módulos Críticos
+- **Motor de Cálculo de Desvíos:** Compara en tiempo real `Real Spent` vs `Renovation Budget`.
+- **Módulo de Reportes:** Generación de Variance Analysis para el Socio Inversor.
 
 ## 📊 Métricas de Éxito (KPIs)
 
@@ -81,7 +83,17 @@ Define la estructura de propiedad y el riesgo de la inversión.
 - **Transparencia:** Disponibilidad de reportes de ROI en < 10 segundos.
 
 ---
+## 👥 Roles y Permisos
 
+| Funcionalidad | Socio Gestor | Socio Inversor |
+| :--- | :---: | :---: |
+| Carga de Gastos / OCR | ✅ | ❌ |
+| Gestión de Proveedores | ✅ | ❌ |
+| Ver Dashboard de ROI | ✅ | ✅ |
+| Edición de Presupuesto Inicial | ❌ | ✅ |
+| Auditoría de Comprobantes | ✅ | ✅ |
+
+---
 ## 🔄 Próximos Pasos
 
 1. **Setup de Base de Datos**: Implementar el modelo físico en PostgreSQL.
