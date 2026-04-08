@@ -51,6 +51,8 @@ erDiagram
         uuid vendor_id PK
         string vendor_name
         string vendor_tax_id "CUIT/CUIL"
+        string vendor_address "Dirección"
+        string vendor_contact "Teléfono|email|Instagram"
         string vendor_category "Rubro principal"
     }
 
