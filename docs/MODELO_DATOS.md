@@ -13,12 +13,12 @@ erDiagram
 
     PROJECTS {
         uuid id PK
-        string name "Nombre de la propiedad"
-        decimal purchase_price "Costo adquisición USD"
-        decimal renovation_budget "Presupuesto obra aprobado"
-        decimal estimated_sale_price "Precio venta proyectado"
-        string currency "Moneda base (USD/ARS)"
-        string status "PLANNING | IN_PROGRESS | SOLD | LIQUIDATED"
+        string Project_Address "Direccion de la propiedad"
+        decimal Project_purchase_price "Costo adquisición USD"
+        decimal Project_renovation_budget "Presupuesto obra aprobado"
+        decimal Project_estimated_sale_price "Precio venta proyectado"
+        string Project_currency "Moneda base (USD/ARS)"
+        string Project_status "PLANNING | IN_PROGRESS | SOLD | LIQUIDATED"
     }
 
     EXPENSES {
