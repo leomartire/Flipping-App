@@ -27,13 +27,14 @@ erDiagram
         uuid vendor_id FK
         string vendor_name "Nombre del Proveedor"
         string invoice_num "Número de Factura/Ticket"
-        date date
-        string currency "Moneda del comprobante (USD/ARS)"
-        decimal amount "Monto en moneda original"
-        decimal exchange_rate "TC para conversión a base"
+        date invoice_date
+        string invoice_currency "Moneda del comprobante (USD/ARS)"
+        decimal invoice_amount "Monto en moneda original"
+        decimal invoice_exchange_rate "TC para conversión a base"
         string category "Materiales | Mano de Obra | Tasas | etc"
         string payment_type "Efectivo | Transferencia | Tarjeta"
         string receipt_url "Link a la evidencia física"
+        string additional_comments "Comentarios"    
         boolean manual_verified "Validación por Socio Gestor"
     }
 
