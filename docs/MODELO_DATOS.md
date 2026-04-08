@@ -12,7 +12,7 @@ erDiagram
     EXPENSES ||--|| OCR_METADATA : "proviene_de"
 
     PROJECTS {
-        uuid id PK
+        uuid Project_id PK
         string Project_Address "Direccion de la propiedad"
         decimal Project_purchase_price "Costo adquisición USD"
         decimal Project_renovation_budget "Presupuesto obra aprobado"
@@ -22,7 +22,7 @@ erDiagram
     }
 
     EXPENSES {
-        uuid id PK
+        uuid Expense_id PK
         uuid project_id FK
         uuid vendor_id FK
         string vendor_name "Nombre del Proveedor"
@@ -48,7 +48,7 @@ erDiagram
     }
 
     VENDORS {
-        uuid id PK
+        uuid vendor_id PK
         string vendor_name
         string vendor_tax_id "CUIT/CUIL"
         string vendor_category "Rubro principal"
